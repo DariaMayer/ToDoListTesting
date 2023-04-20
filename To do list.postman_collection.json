@@ -1,0 +1,1350 @@
+{
+	"info": {
+		"_postman_id": "51657960-2c99-4718-9f2c-5d1f0a318b5c",
+		"name": "To do list",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25743167"
+	},
+	"item": [
+		{
+			"name": "Mock",
+			"item": [
+				{
+					"name": "get list mock",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{mockurl}}",
+							"host": [
+								"{{mockurl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get list empty mock",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "result",
+								"value": "empty list",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mockurl}}",
+							"host": [
+								"{{mockurl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add task mock default",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"gym\",\"completed\": false}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mockurl}}",
+							"host": [
+								"{{mockurl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add task mock error",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"большаяошибка\",\"completed\": false}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mockurl}}",
+							"host": [
+								"{{mockurl}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "add task",
+			"item": [
+				{
+					"name": "add task default",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"{{$randomFullName}}\",\"completed\": false}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}",
+							"host": [
+								"{{baseurl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add task nonlatin title",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"проゅ女万ø\",\"completed\": false}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}",
+							"host": [
+								"{{baseurl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add task long title",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.unset(\"randomString\");// deleting variables\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function randomString(length, dataSet = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') \r",
+									"{\r",
+									"    randomString = \"\";\r",
+									"\r",
+									"    for (let i = 0; i < length; i++)\r",
+									"        randomString += dataSet.charAt(Math.floor(Math.random() * dataSet.length));\r",
+									"    return randomString;\r",
+									"}\r",
+									"\r",
+									"pm.collectionVariables.set('randomString', randomString(256));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"{{randomString}}\",\"completed\": false}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}",
+							"host": [
+								"{{baseurl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add task null title",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": null,\"completed\": false}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}",
+							"host": [
+								"{{baseurl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add task empty title",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"\",\"completed\": false}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}",
+							"host": [
+								"{{baseurl}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Change task status",
+			"item": [
+				{
+					"name": "change task status (completed)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let base_url = pm.collectionVariables.get(\"baseurl\");\r",
+									"\r",
+									"pm.sendRequest(\r",
+									"    {\r",
+									"        url: `${base_url}`,\r",
+									"        method: 'POST',\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify(\r",
+									"                {\r",
+									"                \"title\": \"Test title to change status\",\r",
+									"                \"completed\": false   \r",
+									"            }\r",
+									"            ),\r",
+									"            options: {\r",
+									"                raw: {\r",
+									"                    language: \"json\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }, \r",
+									"    function (err, response) {\r",
+									"    //console.log(response.json().name);\r",
+									"    pm.collectionVariables.set(\"TaskID\", response.json().id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.unset(\"TaskID\");// deleting variables\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"completed\": true}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/{{TaskID}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"{{TaskID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change task status from completed  to uncompleted",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let base_url = pm.collectionVariables.get(\"baseurl\");\r",
+									"\r",
+									"pm.sendRequest(\r",
+									"    {\r",
+									"        url: `${base_url}`,\r",
+									"        method: 'POST',\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify(\r",
+									"                {\r",
+									"                \"title\": \"Test title to change status\",\r",
+									"                \"completed\": true   \r",
+									"            }\r",
+									"            ),\r",
+									"            options: {\r",
+									"                raw: {\r",
+									"                    language: \"json\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }, \r",
+									"    function (err, response) {\r",
+									"    //console.log(response.json().name);\r",
+									"    pm.collectionVariables.set(\"TaskID\", response.json().id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.unset(\"TaskID\");// deleting variables\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"completed\": false}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/{{TaskID}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"{{TaskID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change task status for non-existent task",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let base_url = pm.collectionVariables.get(\"baseurl\");\r",
+									"\r",
+									"pm.sendRequest(\r",
+									"    {\r",
+									"        url: `${base_url}`,\r",
+									"        method: 'POST',\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify(\r",
+									"                {\r",
+									"                \"title\": \"Test title to deleted change\",\r",
+									"                \"completed\": true   \r",
+									"            }\r",
+									"            ),\r",
+									"            options: {\r",
+									"                raw: {\r",
+									"                    language: \"json\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }, \r",
+									"    function (err, response) {\r",
+									"        deletedid = response.json().id\r",
+									"        pm.collectionVariables.set(\"TaskID\", response.json().id)\r",
+									"        pm.sendRequest(\r",
+									"        {\r",
+									"            url: `${base_url}/${deletedid}`,\r",
+									"            method: 'DELETE'\r",
+									"        });\r",
+									"    }\r",
+									")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.unset(\"TaskID\");// deleting variables\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"completed\": false}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/{{TaskID}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"{{TaskID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Change task title",
+			"item": [
+				{
+					"name": "change task title default",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let base_url = pm.collectionVariables.get(\"baseurl\");\r",
+									"\r",
+									"pm.sendRequest(\r",
+									"    {\r",
+									"        url: `${base_url}`,\r",
+									"        method: 'POST',\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify(\r",
+									"                {\r",
+									"                \"title\": \"Test title to change\",\r",
+									"                \"completed\": false   \r",
+									"            }\r",
+									"            ),\r",
+									"            options: {\r",
+									"                raw: {\r",
+									"                    language: \"json\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }, \r",
+									"    function (err, response) {\r",
+									"    //console.log(response.json().name);\r",
+									"    pm.collectionVariables.set(\"TaskID\", response.json().id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.unset(\"TaskID\");// deleting variables\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Title has been changed\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/{{TaskID}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"{{TaskID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change task title to nonlatin title",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"let base_url = pm.collectionVariables.get(\"baseurl\");\r",
+									"\r",
+									"pm.sendRequest(\r",
+									"    {\r",
+									"        url: `${base_url}`,\r",
+									"        method: 'POST',\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify(\r",
+									"                {\r",
+									"                \"title\": \"Test title to change\",\r",
+									"                \"completed\": false   \r",
+									"            }\r",
+									"            ),\r",
+									"            options: {\r",
+									"                raw: {\r",
+									"                    language: \"json\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }, \r",
+									"    function (err, response) {\r",
+									"    //console.log(response.json().name);\r",
+									"    pm.collectionVariables.set(\"TaskID\", response.json().id)\r",
+									"})\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.unset(\"TaskID\");// deleting variables\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"проゅ女万ø\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/{{TaskID}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"{{TaskID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change task title to long title",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function randomString(length, dataSet = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') \r",
+									"{\r",
+									"    randomString = \"\";\r",
+									"\r",
+									"    for (let i = 0; i < length; i++)\r",
+									"        randomString += dataSet.charAt(Math.floor(Math.random() * dataSet.length));\r",
+									"    return randomString;\r",
+									"};\r",
+									"\r",
+									"\r",
+									"let base_url = pm.collectionVariables.get(\"baseurl\");\r",
+									"\r",
+									"pm.sendRequest(\r",
+									"    {\r",
+									"        url: `${base_url}`,\r",
+									"        method: 'POST',\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify(\r",
+									"                {\r",
+									"                \"title\": \"Test title to change\",\r",
+									"                \"completed\": false   \r",
+									"            }\r",
+									"            ),\r",
+									"            options: {\r",
+									"                raw: {\r",
+									"                    language: \"json\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }, \r",
+									"    function (err, response) {\r",
+									"    //console.log(response.json().name);\r",
+									"    pm.collectionVariables.set(\"TaskID\", response.json().id)\r",
+									"})\r",
+									"\r",
+									"pm.collectionVariables.set('randomString', randomString(256));\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.unset(\"TaskID\");                          // deleting variables\r",
+									"pm.collectionVariables.unset(\"randomString\")\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"{{randomString}}\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/{{TaskID}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"{{TaskID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change task title to null title",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"let base_url = pm.collectionVariables.get(\"baseurl\");\r",
+									"\r",
+									"pm.sendRequest(\r",
+									"    {\r",
+									"        url: `${base_url}`,\r",
+									"        method: 'POST',\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify(\r",
+									"                {\r",
+									"                \"title\": \"Test title to change\",\r",
+									"                \"completed\": false   \r",
+									"            }\r",
+									"            ),\r",
+									"            options: {\r",
+									"                raw: {\r",
+									"                    language: \"json\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }, \r",
+									"    function (err, response) {\r",
+									"    //console.log(response.json().name);\r",
+									"    pm.collectionVariables.set(\"TaskID\", response.json().id)\r",
+									"})\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.unset(\"TaskID\");// deleting variables\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": null}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/{{TaskID}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"{{TaskID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change task title to empty",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"let base_url = pm.collectionVariables.get(\"baseurl\");\r",
+									"\r",
+									"pm.sendRequest(\r",
+									"    {\r",
+									"        url: `${base_url}`,\r",
+									"        method: 'POST',\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify(\r",
+									"                {\r",
+									"                \"title\": \"Test title to change\",\r",
+									"                \"completed\": false   \r",
+									"            }\r",
+									"            ),\r",
+									"            options: {\r",
+									"                raw: {\r",
+									"                    language: \"json\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }, \r",
+									"    function (err, response) {\r",
+									"    //console.log(response.json().name);\r",
+									"    pm.collectionVariables.set(\"TaskID\", response.json().id)\r",
+									"})\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.unset(\"TaskID\");// deleting variables\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/{{TaskID}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"{{TaskID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change task title non-existent task",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let base_url = pm.collectionVariables.get(\"baseurl\");\r",
+									"\r",
+									"pm.sendRequest(\r",
+									"    {\r",
+									"        url: `${base_url}`,\r",
+									"        method: 'POST',\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify(\r",
+									"                {\r",
+									"                \"title\": \"Test title to delete\",\r",
+									"                \"completed\": false   \r",
+									"            }\r",
+									"            ),\r",
+									"            options: {\r",
+									"                raw: {\r",
+									"                    language: \"json\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }, \r",
+									"    function (err, response) {\r",
+									"        deletedid = response.json().id\r",
+									"        pm.collectionVariables.set(\"TaskID\", response.json().id)\r",
+									"        pm.sendRequest(\r",
+									"        {\r",
+									"            url: `${base_url}/${deletedid}`,\r",
+									"            method: 'DELETE'\r",
+									"        });\r",
+									"    }\r",
+									")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.unset(\"TaskID\");// deleting variables\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Delited Title has been changed\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/{{TaskID}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"{{TaskID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get list of tasks",
+			"item": [
+				{
+					"name": "get tasks list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}",
+							"host": [
+								"{{baseurl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get one task",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let base_url = pm.collectionVariables.get(\"baseurl\");\r",
+									"\r",
+									"pm.sendRequest(\r",
+									"    {\r",
+									"        url: `${base_url}`,\r",
+									"        method: 'POST',\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify(\r",
+									"                {\r",
+									"                \"title\": \"Test title to get\",\r",
+									"                \"completed\": false   \r",
+									"            }\r",
+									"            ),\r",
+									"            options: {\r",
+									"                raw: {\r",
+									"                    language: \"json\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }, \r",
+									"    function (err, response) {\r",
+									"        deletedid = response.json().id\r",
+									"        pm.collectionVariables.set(\"TaskID\", response.json().id)\r",
+									"        \r",
+									"     \r",
+									"    }\r",
+									")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.collectionVariables.unset(\"TaskID\");// deleting variables"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/{{TaskID}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"{{TaskID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get non-existent task",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let base_url = pm.collectionVariables.get(\"baseurl\");\r",
+									"\r",
+									"pm.sendRequest(\r",
+									"    {\r",
+									"        url: `${base_url}`,\r",
+									"        method: 'POST',\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify(\r",
+									"                {\r",
+									"                \"title\": \"Test title to get\",\r",
+									"                \"completed\": false   \r",
+									"            }\r",
+									"            ),\r",
+									"            options: {\r",
+									"                raw: {\r",
+									"                    language: \"json\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }, \r",
+									"    function (err, response) {\r",
+									"        deletedid = response.json().id\r",
+									"        pm.collectionVariables.set(\"TaskID\", response.json().id)\r",
+									"        \r",
+									"     \r",
+									"    }\r",
+									")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.collectionVariables.unset(\"TaskID\");// deleting variables"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/{{TaskID}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"{{TaskID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete tasks",
+			"item": [
+				{
+					"name": "delete task",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let base_url = pm.collectionVariables.get(\"baseurl\");\r",
+									"\r",
+									"pm.sendRequest(\r",
+									"    {\r",
+									"        url: `${base_url}`,\r",
+									"        method: 'POST',\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify(\r",
+									"                {\r",
+									"                \"title\": \"Test title to change\",\r",
+									"                \"completed\": false   \r",
+									"            }\r",
+									"            ),\r",
+									"            options: {\r",
+									"                raw: {\r",
+									"                    language: \"json\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }, \r",
+									"    function (err, response) {\r",
+									"    //console.log(response.json().name);\r",
+									"    pm.collectionVariables.set(\"TaskID\", response.json().id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.unset(\"TaskID\");// deleting variables"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/{{TaskID}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"{{TaskID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete non-existent task with pre-req",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let base_url = pm.collectionVariables.get(\"baseurl\");\r",
+									"\r",
+									"pm.sendRequest(\r",
+									"    {\r",
+									"        url: `${base_url}`,\r",
+									"        method: 'POST',\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify(\r",
+									"                {\r",
+									"                \"title\": \"Test title to delete\",\r",
+									"                \"completed\": false   \r",
+									"            }\r",
+									"            ),\r",
+									"            options: {\r",
+									"                raw: {\r",
+									"                    language: \"json\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }, \r",
+									"    function (err, response) {\r",
+									"        deletedid = response.json().id\r",
+									"        pm.collectionVariables.set(\"TaskID\", response.json().id)\r",
+									"        pm.sendRequest(\r",
+									"        {\r",
+									"            url: `${base_url}/${deletedid}`,\r",
+									"            method: 'DELETE'\r",
+									"        });\r",
+									"    }\r",
+									")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"})\r",
+									"\r",
+									"pm.collectionVariables.unset(\"TaskID\");// deleting variables"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/{{TaskID}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"{{TaskID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseurl",
+			"value": "https://todo-app-sky.herokuapp.com",
+			"type": "string"
+		},
+		{
+			"key": "mockurl",
+			"value": "http://localhost:3002",
+			"type": "string"
+		},
+		{
+			"key": "TaskID",
+			"value": ""
+		}
+	]
+}
