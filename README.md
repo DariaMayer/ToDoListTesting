@@ -1,4 +1,17 @@
 # ToDoListTesting | Bug Reports API (ShortVer)
+
+# The project “ToDOList” was created for people who want to plan tasks for a day and mark their completed status.
+***What has been done:***
+-	Manual and API test cases have been created
+-	Manual and API test cases have been reproduced 
+-	API bug reports have been completed
+
+Click on  the link to see the test documentation: https://docs.google.com/spreadsheets/d/1Ma0gFuO7xEbP-pbIKgqiWh-aWV2B3zBiR3mjaq580mI/edit#gid=0
+
+***Conclusion:***
+
+Test documentation for the project has been created without specification. To complete test cases and provide sufficiency test coverage I used pairwise testing technique. I used basic methods of REST API to provide backend logic tasting such as POST, PATCH, GET and DELETE. To illustrate the result of my work bug reports were added to READ.ME 
+
 ## <span style="color: orange">1.3 The possibility of creating task with long title (256 characters) - Medium Priority </span>
 
 **Description** 
@@ -16,7 +29,7 @@ Look Postman collection.
 >2. To complete a Body of request:
 ```json
 {
-    "title": "{{randomString}}", //  variable
+    "title": "{{randomString}}",
     "completed": false
 }
 ```
@@ -82,11 +95,11 @@ Error!
 >> <span style="color: red">Result: </span> 
 ```json
 {
-    "id": 69750,    // TaskId - variable
+    "id": 69750,
     "title": null,
     "completed": false,
     "order": null,
-    "url": "/69750"  // TaskId - variable
+    "url": "/69750"
 }
 ```
 
@@ -109,7 +122,7 @@ Look Postman collection:
 
 ```json
 {
-    "title": "{{randomString}}" // variable
+    "title": "{{randomString}}"
 }
 ```
 
@@ -183,11 +196,11 @@ Error!
 >> <span style="color:red">Result:</span>  
 ```json
 {
-    "id": 69752,    //  {{TaskID}}
+    "id": 69752,
     "title": null,
     "completed": false,
     "order": null,
-    "url": "/69752"   // {{TaskID}}
+    "url": "/69752"
 }
 ```
 
@@ -233,11 +246,11 @@ Error!
 ```json
 {
     
-    "id": 69753,    //  {{TaskID}}
+    "id": 69753,
     "title": null,
     "completed": false,
     "order": null,
-    "url": "/69753"   //  {{TaskID}}
+    "url": "/69753"
 } 
 ```
 
